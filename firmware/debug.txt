@@ -1,0 +1,116 @@
+root@localhost:/data/pq-flasher$ ./03_flasher.py --bus 0 --input firmware/patched.bin --start-address 380928 --end-address 385023
+
+[READY TO FLASH]
+WARNING! USE AT YOUR OWN RISK! THIS COULD BREAK YOUR ECU AND REQUIRE REPLACEMENT!
+before proceeding:
+* put vehicle in park, and accessory mode (your engine should not be running)
+* ensure battery is fully charged. A full flash can take up to 15 minutes
+continue [y/n]y
+opening device 280037001051393032363438 0xddcc
+connected
+Connecting...
+TP20 TX: 0x200 - 09c00010000301
+  W 0x200: 0x09c00010000301
+RX: 0x209 - 00d00003a80701
+Got channel setup response 00d00003a80701
+TP20 TX: 0x7a8 - a00f8aff0aff
+  W 0x7a8: 0xa00f8aff0aff
+RX: 0x300 - a10f8aff4aff
+Got timing params a10f8aff4aff
+
+Entering programming mode
+TP20 TX: 0x7a8 - 1000021085
+  W 0x7a8: 0x1000021085
+RX: 0x300 - b1
+RX: 0x300 - 10000350850a
+TP20 TX: 0x7a8 - b1
+  W 0x7a8: 0xb1
+Done. Waiting to reconnect...
+
+Reconnecting... 0
+TP20 TX: 0x200 - 09c00010000301
+  W 0x200: 0x09c00010000301
+RX: 0x209 - 00d00003290001
+Got channel setup response 00d00003290001
+TP20 TX: 0x29 - a00f8aff0aff
+
+RX: 0x300 - a10f8aff0aff
+Got timing params a10f8aff0aff
+
+Reading ecu identification & flash status
+TP20 TX: 0x29 - 1000021a9b
+
+RX: 0x300 - b1
+RX: 0x300 - 2000305a9b314b30
+RX: 0x300 - 213930393134345a
+RX: 0x300 - 2241203333303500
+RX: 0x300 - 2300000000000000
+RX: 0x300 - 2400004550535f5a
+RX: 0x300 - 25464c5320424220
+RX: 0x300 - 2620202020202020
+RX: 0x300 - 1700
+TP20 TX: 0x29 - b8
+
+ECU identification b'1K0909144ZA 3305\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00EPS_ZFLS BB        \x00'
+TP20 TX: 0x29 - 1100021a9c
+
+RX: 0x300 - b2
+RX: 0x300 - 2800145a9c020000
+RX: 0x300 - 2900000000000000
+RX: 0x300 - 2a00000000000000
+RX: 0x300 - 1b00
+TP20 TX: 0x29 - bc
+
+Flash status b'\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+
+Request seed
+TP20 TX: 0x29 - 1200022701
+
+RX: 0x300 - b3
+RX: 0x300 - 2c00066701ca72ba
+RX: 0x300 - 1d36
+TP20 TX: 0x29 - be
+
+seed: ca72ba36
+key: d1b2e103
+
+ Send key
+TP20 TX: 0x29 - 2300062702d1b2e1
+
+TP20 TX: 0x29 - 1403
+
+RX: 0x300 - b5
+RX: 0x300 - 1e0003670234
+TP20 TX: 0x29 - bf
+
+
+Request download
+TP20 TX: 0x29 - 2500083405d00000
+
+TP20 TX: 0x29 - 16001000
+
+RX: 0x300 - b7
+RX: 0x300 - 1f000274f1
+TP20 TX: 0x29 - b0
+
+Chunk size: 241
+
+Erase flash
+TP20 TX: 0x29 - 27000831c405d000
+
+TP20 TX: 0x29 - 1805dfff
+
+RX: 0x300 - b9
+RX: 0x300 - 1000037f3122
+TP20 TX: 0x29 - b1
+
+Traceback (most recent call last):
+  File "./03_flasher.py", line 103, in <module>
+    f_routine = kwp_client.erase_flash(args.start_address, args.end_address)
+  File "/data/pq-flasher/kwp2000.py", line 237, in erase_flash
+    return self.start_routine_by_local_identifier(ROUTINE_CONTROL_TYPE.ERASE_FLASH, start + end)
+  File "/data/pq-flasher/kwp2000.py", line 224, in start_routine_by_local_identifier
+    return self._kwp(SERVICE_TYPE.START_ROUTINE_BY_LOCAL_IDENTIFIER, routine_control, data)
+  File "/data/pq-flasher/kwp2000.py", line 166, in _kwp
+    raise NegativeResponseError("{} - {}".format(service_desc, error_desc), service_id, error_code)
+kwp2000.NegativeResponseError: START_ROUTINE_BY_LOCAL_IDENTIFIER - conditionsNotCorrect or requestSequenceError
