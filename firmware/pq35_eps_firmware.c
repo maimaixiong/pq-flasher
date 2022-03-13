@@ -5505,7 +5505,7 @@ void FUN_00008ea6(void)
 // WARNING: Globals starting with '_' overlap smaller symbols at the same address
 
 undefined4 FUN_00008ec2(char param_1,byte *param_2,ushort *param_3)
-
+//param_1: START_ROUTINE_BY_LOCAL_IDENTIFIER ...; param_2 ptr to payload
 {
   byte bVar1;
   ushort uVar2;
@@ -5604,19 +5604,19 @@ LAB_0000952c:
       return 0x35;
     }
   }
-  else if (param_1 == '1') {
+  else if (param_1 == '1') { //START_ROUTINE_BY_LOCAl_IDENTIFIER = 0x31
     *param_3 = 1;
     bVar1 = *param_2;
-    if ((bVar1 == 0xc4) && (_DAT_03ff0210 == 5)) {
+    if ((bVar1 == 0xc4) && (_DAT_03ff0210 == 5)) { //0xc4=ROUTINE_CONTROL_TYPE.ERASE_FLASH 
       uStack40._0_2_ = CONCAT11(param_2[2],param_2[3]);
       uStack40._0_3_ = CONCAT12(param_2[1],(undefined2)uStack40);
-      _DAT_03ff02f4 = (uint)(uint3)uStack40;
+      _DAT_03ff02f4 = (uint)(uint3)uStack40;  //start_address
       uStack40._0_2_ = CONCAT11(param_2[5],param_2[6]);
       uStack40._0_3_ = CONCAT12(param_2[4],(undefined2)uStack40);
-      _DAT_03ff02f0 = (uint)(uint3)uStack40;
+      _DAT_03ff02f0 = (uint)(uint3)uStack40;   //end_address
       uStack40 = _DAT_03ff02f0;
-      if (_DAT_03ff02f4 == _DAT_03ff02fc) {
-        if (_DAT_03ff02f0 != _DAT_03ff02f8) {
+      if (_DAT_03ff02f4 == _DAT_03ff02fc) {  //_DAT_03ff02fc request_download start_address
+        if (_DAT_03ff02f0 != _DAT_03ff02f8) { //_DAT_03ff02f8 request_download end_address
           FUN_00008d4e();
           return 0x43;
         }
